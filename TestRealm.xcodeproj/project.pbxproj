@@ -10,7 +10,6 @@
 		DED82B39D54D8D701DC53056 /* Pods_TestRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8384446A97BB924ADB881C4 /* Pods_TestRealm.framework */; };
 		E0FEE58F22AF59FC008FAFBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */; };
 		E0FEE59122AF59FC008FAFBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FEE59022AF59FC008FAFBF /* ViewController.swift */; };
-		E0FEE59422AF59FC008FAFBF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0FEE59222AF59FC008FAFBF /* Main.storyboard */; };
 		E0FEE59622AF59FE008FAFBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0FEE59522AF59FE008FAFBF /* Assets.xcassets */; };
 		E0FEE59922AF59FE008FAFBF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E0FEE59722AF59FE008FAFBF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -22,7 +21,6 @@
 		E0FEE58B22AF59FC008FAFBF /* TestRealm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestRealm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0FEE59022AF59FC008FAFBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E0FEE59322AF59FC008FAFBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E0FEE59522AF59FE008FAFBF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E0FEE59822AF59FE008FAFBF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E0FEE59A22AF59FE008FAFBF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -54,7 +52,6 @@
 				CBC86DD192AB195A0700E81C /* Pods-TestRealm.debug.xcconfig */,
 				D9686377BDD008B25AF9FB43 /* Pods-TestRealm.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -81,7 +78,6 @@
 			children = (
 				E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */,
 				E0FEE59022AF59FC008FAFBF /* ViewController.swift */,
-				E0FEE59222AF59FC008FAFBF /* Main.storyboard */,
 				E0FEE59522AF59FE008FAFBF /* Assets.xcassets */,
 				E0FEE59722AF59FE008FAFBF /* LaunchScreen.storyboard */,
 				E0FEE59A22AF59FE008FAFBF /* Info.plist */,
@@ -151,7 +147,6 @@
 			files = (
 				E0FEE59922AF59FE008FAFBF /* LaunchScreen.storyboard in Resources */,
 				E0FEE59622AF59FE008FAFBF /* Assets.xcassets in Resources */,
-				E0FEE59422AF59FC008FAFBF /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -221,14 +216,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E0FEE59222AF59FC008FAFBF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E0FEE59322AF59FC008FAFBF /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E0FEE59722AF59FE008FAFBF /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
