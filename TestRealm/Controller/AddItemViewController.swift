@@ -21,7 +21,7 @@ class AddItemViewController: UIViewController {
     let type1Btn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("Type 1", for: .normal)
+        btn.setTitle("WORK", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = .lightGray
         btn.tag = 111
@@ -31,7 +31,7 @@ class AddItemViewController: UIViewController {
     let type2Btn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-        btn.setTitle("Type 2", for: .normal)
+        btn.setTitle("LEISURE", for: .normal)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = .lightGray
         btn.tag = 222
