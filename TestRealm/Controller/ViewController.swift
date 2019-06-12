@@ -10,33 +10,34 @@ import UIKit
 import RealmSwift
 import SnapKit
 
-class ViewController: UIViewController {
-    let tableView = UITableView()
-    let type1 = ToDoType(name: "WORK")
-    let type2 = ToDoType(name: "LEISURE")
-    lazy var realm = try! Realm()
+class ViewController: UIViewController, DBManagerDelegate {
     
-    var todos: Results<ToDoItem> {
+    
+    let tableView = UITableView()
+    var dbManager = DBManager.shared
+    var todos: Results<ToDoItem>? {
         get {
-            return realm.objects(ToDoItem.self)
+            return dbManager.todos
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(realm.configuration.fileURL!)
+        view.backgroundColor = .white
         configureDB()
         configureNavItem()
         configureTableView()
     }
     
-    private func configureDB() {
-        try! realm.write {
-            realm.add(type1)
-            realm.add(type2)
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
     }
+    
+    private func configureDB() {
+        dbManager.delegate = self
+    }
+    
     
     private func configureNavItem() {
         let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
@@ -63,44 +64,47 @@ class ViewController: UIViewController {
     }
     
     @objc func addItem() {
-        
-        let item = ToDoItem(name: "Test", type: type1)
-
-        try! realm.write {
-            realm.add(item)
-        }
-        tableView.reloadData()
-        
-        //        let vc = AddItemViewController()
-//        self.navigationController?.pushViewController(vc, animated: true)
+        let vc = AddItemViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func resetItems() {
-
-        try? realm.write {
-            realm.deleteAll()
-        }
-         tableView.reloadData()
+        dbManager.deleteAll()
     }
+    
+    // MARK: DBManagerDelegate
+    func didFinishEditing() {
+        tableView.reloadData()
+    }
+    
 
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return todos.count
+        return todos?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
     
         
-        cell?.textLabel?.text = todos[indexPath.row].name
-        cell?.imageView?.image = UIImage()
-        cell?.accessoryType = .checkmark
+        cell?.textLabel?.text = todos![indexPath.row].name
+       // cell?.imageView?.image =  todos![indexPath.row].image as? UIImage
+        if todos![indexPath.row].isDone {
+            cell?.accessoryType = .checkmark
+        } else {
+            cell?.accessoryType = .none
+        }
+        
         
         return cell!
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        DBManager.shared.setIsDone(index: indexPath.row)
+        tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
     
 }
 
