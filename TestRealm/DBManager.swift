@@ -29,6 +29,12 @@ class DBManager {
         }
     }
     
+    var types: Results<ToDoType> {
+        get {
+            return realm.objects(ToDoType.self)
+        }
+    }
+    
     func getFileURL() {
         print(realm.configuration.fileURL!)
     }
@@ -62,12 +68,11 @@ class DBManager {
         delegate?.didFinishEditing()
     }
     
+   
     func setIsDone(item: ToDoItem) {
-        
         try! realm.write {
             item.isDone = !item.isDone
         }
-
     }
     
     
