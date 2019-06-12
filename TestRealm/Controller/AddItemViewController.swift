@@ -41,7 +41,8 @@ class AddItemViewController: UIViewController {
     let imageBtn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
-       
+        btn.setTitle("+", for: .normal)
+        btn.setTitleColor(.blue, for: .normal)
         return btn
     }()
     

@@ -47,6 +47,14 @@ class DBManager {
         
     }
     
+    func delete(item: ToDoItem) {
+      
+        try! realm.write {
+            realm.delete(item)
+        }
+        
+    }
+    
     func deleteAll() {
         try? realm.write {
             realm.deleteAll()
@@ -54,8 +62,7 @@ class DBManager {
         delegate?.didFinishEditing()
     }
     
-    func setIsDone(index: Int) {
-        let item = todos[index]
+    func setIsDone(item: ToDoItem) {
         
         try! realm.write {
             item.isDone = !item.isDone

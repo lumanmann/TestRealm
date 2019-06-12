@@ -102,8 +102,15 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        DBManager.shared.setIsDone(index: indexPath.row)
+        DBManager.shared.setIsDone(item: todos![indexPath.row])
         tableView.reloadRows(at: [indexPath], with: .automatic)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            DBManager.shared.delete(item: todos![indexPath.row])
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
     
 }
