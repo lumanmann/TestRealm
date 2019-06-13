@@ -78,6 +78,20 @@ class ViewController: UIViewController, DBManagerDelegate {
         tableView.reloadData()
     }
     
+    func loadImagefrom(path: String) -> UIImage? {
+        guard let url = URL(string: path)  else {
+            return nil
+        }
+        let data = try? Data(contentsOf: url)
+        
+        if let imageData = data {
+            let image = UIImage(data: imageData)
+            return image
+        }
+        
+        return nil
+    }
+    
 
 }
 
@@ -96,6 +110,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell?.accessoryType = .checkmark
         } else {
             cell?.accessoryType = .none
+        }
+        
+        if let image = loadImagefrom(path: todos![indexPath.row].imagePath) {
+            cell?.imageView?.image = image
         }
         
         

@@ -29,11 +29,6 @@ class DBManager {
         }
     }
     
-    var types: Results<ToDoType> {
-        get {
-            return realm.objects(ToDoType.self)
-        }
-    }
     
     func getFileURL() {
         print(realm.configuration.fileURL!)

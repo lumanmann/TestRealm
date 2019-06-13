@@ -11,6 +11,7 @@
 		E0D4BABC22B09C4F006D77F8 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BABB22B09C4F006D77F8 /* AddItemViewController.swift */; };
 		E0D4BAC322B0AB29006D77F8 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BAC222B0AB29006D77F8 /* DBManager.swift */; };
 		E0FCE27B22B1EA6500FFBF24 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */; };
+		E0FCE27D22B1F1AE00FFBF24 /* Person.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCE27C22B1F1AE00FFBF24 /* Person.swift */; };
 		E0FEE58F22AF59FC008FAFBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */; };
 		E0FEE59122AF59FC008FAFBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FEE59022AF59FC008FAFBF /* ViewController.swift */; };
 		E0FEE59622AF59FE008FAFBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0FEE59522AF59FE008FAFBF /* Assets.xcassets */; };
@@ -24,6 +25,7 @@
 		E0D4BABB22B09C4F006D77F8 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		E0D4BAC222B0AB29006D77F8 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
+		E0FCE27C22B1F1AE00FFBF24 /* Person.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Person.swift; sourceTree = "<group>"; };
 		E0FEE58B22AF59FC008FAFBF /* TestRealm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestRealm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0FEE59022AF59FC008FAFBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */,
+				E0FCE27C22B1F1AE00FFBF24 /* Person.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E0FCE27D22B1F1AE00FFBF24 /* Person.swift in Sources */,
 				E0D4BABC22B09C4F006D77F8 /* AddItemViewController.swift in Sources */,
 				E0FEE59122AF59FC008FAFBF /* ViewController.swift in Sources */,
 				E0FCE27B22B1EA6500FFBF24 /* ToDoItem.swift in Sources */,
