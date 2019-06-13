@@ -76,5 +76,36 @@ class DBManager {
         }
     }
     
+    func filterItem(name: String) -> Results<ToDoItem> {
+        let predicate = NSPredicate(format: "owner.name CONTAINS %@", name)
+        let items = realm.objects(ToDoItem.self).filter(predicate)
+        return items
+    }
+    
+    func filterItem(isDone: Bool) -> Results<ToDoItem>  {
+        let predicate = NSPredicate(format: "isDone = '\(isDone)'")
+        let items = realm.objects(ToDoItem.self).filter(predicate)
+        return items
+    }
+    
+    func filterItem(owner: String) -> Results<ToDoItem> {
+        let predicate = NSPredicate(format: "owner.name CONTAINS %@", owner)
+    
+        let items = realm.objects(ToDoItem.self).filter(predicate)
+       
+        return items
+    }
+    
+    func filterItem(type: String) -> Results<ToDoItem> {
+        let predicate = NSPredicate(format: "type CONTAINS %@", type)
+        let items = realm.objects(ToDoItem.self).filter(predicate)
+        return items
+    }
+    
+
+    
+    func filterOwner(name: String) {
+        
+    }
     
 }

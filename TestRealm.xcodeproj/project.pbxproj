@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		DED82B39D54D8D701DC53056 /* Pods_TestRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8384446A97BB924ADB881C4 /* Pods_TestRealm.framework */; };
+		E0118B5722B2474000F1B32D /* MainSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0118B5622B2474000F1B32D /* MainSearchBar.swift */; };
 		E0D4BABC22B09C4F006D77F8 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BABB22B09C4F006D77F8 /* AddItemViewController.swift */; };
 		E0D4BAC322B0AB29006D77F8 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BAC222B0AB29006D77F8 /* DBManager.swift */; };
 		E0FCE27B22B1EA6500FFBF24 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */; };
@@ -22,6 +23,7 @@
 		CBC86DD192AB195A0700E81C /* Pods-TestRealm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestRealm.debug.xcconfig"; path = "Target Support Files/Pods-TestRealm/Pods-TestRealm.debug.xcconfig"; sourceTree = "<group>"; };
 		D8384446A97BB924ADB881C4 /* Pods_TestRealm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestRealm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9686377BDD008B25AF9FB43 /* Pods-TestRealm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestRealm.release.xcconfig"; path = "Target Support Files/Pods-TestRealm/Pods-TestRealm.release.xcconfig"; sourceTree = "<group>"; };
+		E0118B5622B2474000F1B32D /* MainSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSearchBar.swift; sourceTree = "<group>"; };
 		E0D4BABB22B09C4F006D77F8 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
 		E0D4BAC222B0AB29006D77F8 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
 		E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
@@ -66,6 +68,7 @@
 		E0D4BABD22B09C54006D77F8 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				E0118B5622B2474000F1B32D /* MainSearchBar.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 				E0FEE59122AF59FC008FAFBF /* ViewController.swift in Sources */,
 				E0FCE27B22B1EA6500FFBF24 /* ToDoItem.swift in Sources */,
 				E0FEE58F22AF59FC008FAFBF /* AppDelegate.swift in Sources */,
+				E0118B5722B2474000F1B32D /* MainSearchBar.swift in Sources */,
 				E0D4BAC322B0AB29006D77F8 /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -224,13 +224,6 @@ class AddItemViewController: UIViewController {
         
     }
     
-    @objc func pickDeadline() {
-        datePicker.frame =  CGRect(x:0, y: view.frame.maxY-216, width:view.frame.maxX, height:216)
-        view.addSubview(datePicker)
-       
-        
-    }
-    
  
     @objc func dismissDatePicker() {
         let formatter = DateFormatter()

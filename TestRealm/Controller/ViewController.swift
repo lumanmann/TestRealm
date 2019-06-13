@@ -12,22 +12,24 @@ import SnapKit
 
 class ViewController: UIViewController, DBManagerDelegate {
     
-    
+    let searchController = UISearchController(searchResultsController: nil)
     let tableView = UITableView()
     var dbManager = DBManager.shared
-    var todos: Results<ToDoItem>? {
-        get {
-            return dbManager.todos
-        }
-    }
+    var todos: Results<ToDoItem>!
+    var tableViewTopConstarint: NSLayoutConstraint?
+    var selectedScope = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         dbManager.getFileURL()
         configureDB()
-        configureNavItem()
+        configureNavBar()
         configureTableView()
+        
+        todos = dbManager.todos
+        
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,12 +41,33 @@ class ViewController: UIViewController, DBManagerDelegate {
         dbManager.delegate = self
     }
     
-    
-    private func configureNavItem() {
+    private func configureNavBar() {
         let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
+        let deleteBtn = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteItems))
         let resetBtn = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(resetItems))
-        self.navigationItem.setRightBarButtonItems([resetBtn, addBtn], animated: true)
+    
+        self.navigationItem.setRightBarButtonItems([deleteBtn,resetBtn, addBtn], animated: true)
+    
+        makeSearchBar()
     }
+    
+    func makeSearchBar() {
+        searchController.searchBar.scopeButtonTitles = ["Name", "Owner", "Type"]
+       
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+        searchController.searchResultsUpdater = self
+        
+        definesPresentationContext = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Search To-do Item"
+        
+        tableView.tableHeaderView = searchController.searchBar
+        tableView.reloadData()
+    }
+    
+    
     
     private func configureTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -59,17 +82,26 @@ class ViewController: UIViewController, DBManagerDelegate {
     
     private func layoutTableView() {
         tableView.snp.makeConstraints { (make) in
-            make.edges.equalTo(view.snp.edges)
+            make.bottom.equalTo(view.snp.bottomMargin)
+            make.top.equalTo(view.snp.topMargin).priority(750)
+            make.width.centerX.equalToSuperview()
         }
-
     }
     
     @objc func addItem() {
+        dissMissSearchBar()
         let vc = AddItemViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func resetItems() {
+        dissMissSearchBar()
+        todos = dbManager.todos
+        tableView.reloadData()
+    }
+    
+    @objc func deleteItems() {
+        dissMissSearchBar()
         dbManager.deleteAll()
     }
     
@@ -141,6 +173,54 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return  80
     }
+    
+}
+
+extension ViewController: UISearchResultsUpdating, UISearchControllerDelegate, UISearchBarDelegate  {
+    
+    // MARK: UISearchResultsUpdating
+    func updateSearchResults(for searchController: UISearchController) {
+    
+        let searchString = searchController.searchBar.text!
+        switch selectedScope {
+        case 0: todos = dbManager.filterItem(name: searchString )
+        case 1: todos = dbManager.filterItem(owner: searchString)
+        case 2: todos = dbManager.filterItem(type: searchString)
+        default: todos = dbManager.todos
+        }
+        
+        tableView.reloadData()
+    }
+    
+    
+    func didPresentSearchController(_ searchController: UISearchController) {
+        tableViewTopConstarint = NSLayoutConstraint(item: tableView, attribute: .top, relatedBy: .equal,toItem: searchController.searchBar, attribute: .bottom, multiplier: 1, constant: 20)
+        animateTableView(isActive: true)
+    }
+    
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        dissMissSearchBar()
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        self.selectedScope = selectedScope
+    }
+    
+    func animateTableView(isActive: Bool) {
+        tableViewTopConstarint?.isActive = isActive
+  
+        UIView.animate(withDuration: 0.5) {
+            self.tableView.updateConstraintsIfNeeded()
+            self.tableView.layoutIfNeeded()
+        }
+    }
+    
+    func dissMissSearchBar() {
+        searchController.isActive = false
+        animateTableView(isActive: false)
+    }
+    
     
 }
 
