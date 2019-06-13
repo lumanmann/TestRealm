@@ -116,6 +116,17 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell?.imageView?.image = image
         }
         
+        let ownerID = todos![indexPath.row].owner?.id ?? -1
+        
+        switch ownerID {
+        case 0: cell?.backgroundColor = .red
+        case 1: cell?.backgroundColor = .yellow
+        case 2: cell?.backgroundColor = .orange
+        case 3: cell?.backgroundColor = .gray
+        default:
+            break
+        }
+        
         
         return cell!
     }
@@ -130,6 +141,9 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             DBManager.shared.delete(item: todos![indexPath.row])
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return  80
     }
     
 }

@@ -19,6 +19,16 @@ class AddItemViewController: UIViewController {
         return tf
     }()
     
+    let ownerBtn: UIButton = {
+        let btn = UIButton()
+        btn.translatesAutoresizingMaskIntoConstraints = false
+        btn.setTitle("Choose owner", for: .normal)
+        btn.setTitleColor(.black, for: .normal)
+        btn.backgroundColor = .lightGray
+        btn.addTarget(self, action: #selector(pickOwner), for: .touchUpInside)
+        return btn
+    }()
+    
     let type1Btn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -44,6 +54,7 @@ class AddItemViewController: UIViewController {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("+", for: .normal)
         btn.setTitleColor(.blue, for: .normal)
+        btn.layer.borderWidth = 1.0
         btn.addTarget(self, action: #selector(selectPicture), for: .touchUpInside)
         return btn
     }()
@@ -66,6 +77,7 @@ class AddItemViewController: UIViewController {
         type1Btn.addTarget(self, action: #selector(itemClick), for: .touchUpInside)
         type2Btn.addTarget(self, action: #selector(itemClick), for: .touchUpInside)
         
+        view.addSubview(ownerBtn)
         view.addSubview(eventTf)
         view.addSubview(imageBtn)
         
@@ -83,7 +95,8 @@ class AddItemViewController: UIViewController {
         view.addSubview(stackView)
         
         imageBtn.snp.makeConstraints { (make) in
-            make.height.width.equalToSuperview().multipliedBy(0.05)
+            make.height.equalToSuperview().multipliedBy(0.2)
+            make.width.equalToSuperview().multipliedBy(0.7)
             make.top.equalTo(view.snp.topMargin).offset(60)
             make.centerX.equalToSuperview()
         }
@@ -101,6 +114,12 @@ class AddItemViewController: UIViewController {
             make.width.equalToSuperview().multipliedBy(0.8)
             make.top.equalTo(type1Btn.snp.bottom).offset(20)
             make.height.equalTo(stackView.snp.height)
+        }
+        
+        ownerBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(eventTf.snp.size)
+            make.top.equalTo(eventTf.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
         }
         
     
@@ -142,14 +161,12 @@ class AddItemViewController: UIViewController {
         self.present(imagePicker, animated: true, completion: nil)
     }
     
-
-    
     @objc func itemClick(_ sender: UIButton) {
         item.type = sender.currentTitle ?? ""
     }
     
     @objc func saveItem() {
-        guard let name = eventTf.text, name.count > 0, item.type != nil else { return }
+        guard let name = eventTf.text, name.count > 0, item.type != "" else { return }
         item.name = name
         
         
@@ -159,6 +176,54 @@ class AddItemViewController: UIViewController {
     
         
     }
+    
+    @objc func pickOwner() {
+        
+        let alert = UIAlertController(title: "Choose an owner", message: "", preferredStyle: .actionSheet);
+        
+        for owner in DBManager.shared.pepeole {
+            let action = UIAlertAction(title: "\(owner.name)", style: .default, handler: {[unowned self](_) -> Void in
+                self.item.owner = owner
+            })
+            
+            alert.addAction(action)
+        }
+        
+        let add = UIAlertAction(title: "Add Owner", style: .destructive, handler: {[unowned self](_) -> Void in
+           self.addNewOwner()
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alert.addAction(add)
+        alert.addAction(cancel)
+        
+        self.present(alert, animated: false, completion: nil)
+        
+    }
+    
+    func addNewOwner() {
+        let alert = UIAlertController(title: "Add Owner", message: "", preferredStyle: .alert)
+        var tf: UITextField?
+        alert.addTextField(configurationHandler: {
+            (textField:UITextField!) -> Void in
+            textField.placeholder = "Enter owner name"
+            tf = textField
+        })
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        
+        alert.addAction(cancel)
+        alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
+            guard let name = tf?.text else { return }
+            DBManager.shared.add(owner: Person(name: name))
+            
+        })
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 }
 
 extension AddItemViewController: UITextFieldDelegate {

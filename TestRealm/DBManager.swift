@@ -29,6 +29,11 @@ class DBManager {
         }
     }
     
+    var pepeole: Results<Person> {
+        get {
+            return realm.objects(Person.self)
+        }
+    }
     
     func getFileURL() {
         print(realm.configuration.fileURL!)
@@ -39,6 +44,13 @@ class DBManager {
             realm.add(item)
         }
         delegate?.didFinishEditing()
+    }
+    
+    func add(owner: Person) {
+        owner.id = pepeole.count 
+        try! realm.write {
+            realm.add(owner)
+        }
     }
     
     
