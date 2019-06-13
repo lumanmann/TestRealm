@@ -12,12 +12,12 @@ import RealmSwift
 class ToDoItem: Object {
     @objc dynamic var name = ""
     @objc dynamic var isDone = false
-    @objc dynamic var type: ToDoType?
-    @objc dynamic var image: ToDoImage?
+    @objc dynamic var type: String = ""
+    @objc dynamic var image: Data?
     
-    convenience init(name: String, type: ToDoType) {
+    convenience init(name: String) {
         self.init()
         self.name = name
-        self.type = type
+
     }
 }

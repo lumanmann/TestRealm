@@ -8,11 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		DED82B39D54D8D701DC53056 /* Pods_TestRealm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8384446A97BB924ADB881C4 /* Pods_TestRealm.framework */; };
-		E0B3B69F22AFA626009A4814 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0B3B69E22AFA626009A4814 /* ToDoItem.swift */; };
-		E0D4BABA22B09B30006D77F8 /* ToDoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BAB922B09B30006D77F8 /* ToDoType.swift */; };
 		E0D4BABC22B09C4F006D77F8 /* AddItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BABB22B09C4F006D77F8 /* AddItemViewController.swift */; };
-		E0D4BAC122B09DC6006D77F8 /* ToDoImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BAC022B09DC6006D77F8 /* ToDoImage.swift */; };
 		E0D4BAC322B0AB29006D77F8 /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0D4BAC222B0AB29006D77F8 /* DBManager.swift */; };
+		E0FCE27B22B1EA6500FFBF24 /* ToDoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */; };
 		E0FEE58F22AF59FC008FAFBF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */; };
 		E0FEE59122AF59FC008FAFBF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0FEE59022AF59FC008FAFBF /* ViewController.swift */; };
 		E0FEE59622AF59FE008FAFBF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E0FEE59522AF59FE008FAFBF /* Assets.xcassets */; };
@@ -23,11 +21,9 @@
 		CBC86DD192AB195A0700E81C /* Pods-TestRealm.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestRealm.debug.xcconfig"; path = "Target Support Files/Pods-TestRealm/Pods-TestRealm.debug.xcconfig"; sourceTree = "<group>"; };
 		D8384446A97BB924ADB881C4 /* Pods_TestRealm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestRealm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9686377BDD008B25AF9FB43 /* Pods-TestRealm.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestRealm.release.xcconfig"; path = "Target Support Files/Pods-TestRealm/Pods-TestRealm.release.xcconfig"; sourceTree = "<group>"; };
-		E0B3B69E22AFA626009A4814 /* ToDoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
-		E0D4BAB922B09B30006D77F8 /* ToDoType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoType.swift; sourceTree = "<group>"; };
 		E0D4BABB22B09C4F006D77F8 /* AddItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddItemViewController.swift; sourceTree = "<group>"; };
-		E0D4BAC022B09DC6006D77F8 /* ToDoImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoImage.swift; sourceTree = "<group>"; };
 		E0D4BAC222B0AB29006D77F8 /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
+		E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToDoItem.swift; sourceTree = "<group>"; };
 		E0FEE58B22AF59FC008FAFBF /* TestRealm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestRealm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E0FEE58E22AF59FC008FAFBF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E0FEE59022AF59FC008FAFBF /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -84,9 +80,7 @@
 		E0D4BABF22B09C74006D77F8 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				E0B3B69E22AFA626009A4814 /* ToDoItem.swift */,
-				E0D4BAB922B09B30006D77F8 /* ToDoType.swift */,
-				E0D4BAC022B09DC6006D77F8 /* ToDoImage.swift */,
+				E0FCE27A22B1EA6500FFBF24 /* ToDoItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -249,10 +243,8 @@
 			files = (
 				E0D4BABC22B09C4F006D77F8 /* AddItemViewController.swift in Sources */,
 				E0FEE59122AF59FC008FAFBF /* ViewController.swift in Sources */,
-				E0D4BABA22B09B30006D77F8 /* ToDoType.swift in Sources */,
-				E0D4BAC122B09DC6006D77F8 /* ToDoImage.swift in Sources */,
+				E0FCE27B22B1EA6500FFBF24 /* ToDoItem.swift in Sources */,
 				E0FEE58F22AF59FC008FAFBF /* AppDelegate.swift in Sources */,
-				E0B3B69F22AFA626009A4814 /* ToDoItem.swift in Sources */,
 				E0D4BAC322B0AB29006D77F8 /* DBManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

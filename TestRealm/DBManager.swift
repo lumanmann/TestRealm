@@ -46,12 +46,6 @@ class DBManager {
         delegate?.didFinishEditing()
     }
     
-    func add(type: ToDoType) {
-        try! realm.write {
-            realm.add(type)
-        }
-        
-    }
     
     func delete(item: ToDoItem) {
       

@@ -47,8 +47,7 @@ class AddItemViewController: UIViewController {
     }()
     
     let dbManager = DBManager.shared
-    let type1 = ToDoType(name: "WORK")
-    let type2 = ToDoType(name: "LEISURE")
+    
     var item = ToDoItem()
     
     override func viewDidLoad() {
@@ -104,13 +103,7 @@ class AddItemViewController: UIViewController {
     }
     
     @objc func itemClick(_ sender: UIButton) {
-        switch sender.tag {
-        case 111:
-            item.type = type1
-        case 222:
-            item.type = type2
-        default: return
-        }
+        item.type = sender.currentTitle ?? ""
     }
     
     @objc func saveItem() {
