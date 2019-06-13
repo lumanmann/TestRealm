@@ -19,6 +19,15 @@ class AddItemViewController: UIViewController {
         return tf
     }()
     
+    let deadlineTf: UITextField = {
+        let tf = UITextField()
+        tf.borderStyle = .roundedRect
+        tf.placeholder = "Please enter a deadline"
+        tf.translatesAutoresizingMaskIntoConstraints = false
+        return tf
+    }()
+    
+    
     let ownerBtn: UIButton = {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
@@ -59,6 +68,14 @@ class AddItemViewController: UIViewController {
         return btn
     }()
     
+    let datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.locale = Locale.current
+        datePicker.date = NSDate() as Date
+        return datePicker
+    }()
+    
     let dbManager = DBManager.shared
     var picture: UIImage?
     var item = ToDoItem()
@@ -74,12 +91,15 @@ class AddItemViewController: UIViewController {
     // MARK: Setup views
     private func setupViews() {
         eventTf.delegate = self
+        deadlineTf.inputView = datePicker
+        deadlineTf.inputAccessoryView = UIToolbar().getCustomToolbarPicker(selector: #selector(dismissDatePicker))
         type1Btn.addTarget(self, action: #selector(itemClick), for: .touchUpInside)
         type2Btn.addTarget(self, action: #selector(itemClick), for: .touchUpInside)
         
         view.addSubview(ownerBtn)
         view.addSubview(eventTf)
         view.addSubview(imageBtn)
+        view.addSubview(deadlineTf)
         
         configureNavItem()
         layoutView()
@@ -119,6 +139,12 @@ class AddItemViewController: UIViewController {
         ownerBtn.snp.makeConstraints { (make) in
             make.size.equalTo(eventTf.snp.size)
             make.top.equalTo(eventTf.snp.bottom).offset(20)
+            make.centerX.equalToSuperview()
+        }
+        
+        deadlineTf.snp.makeConstraints { (make) in
+            make.size.equalTo(eventTf.snp.size)
+            make.top.equalTo(ownerBtn.snp.bottom).offset(20)
             make.centerX.equalToSuperview()
         }
         
@@ -198,6 +224,23 @@ class AddItemViewController: UIViewController {
         
     }
     
+    @objc func pickDeadline() {
+        datePicker.frame =  CGRect(x:0, y: view.frame.maxY-216, width:view.frame.maxX, height:216)
+        view.addSubview(datePicker)
+       
+        
+    }
+    
+ 
+    @objc func dismissDatePicker() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy年MM月dd日"
+        let date = formatter.string(from: datePicker.date)
+        deadlineTf.text = date
+        item.deadline = datePicker.date
+        view.endEditing(true)
+    }
+    
     func addNewOwner() {
         let alert = UIAlertController(title: "Add Owner", message: "", preferredStyle: .alert)
         var tf: UITextField?
@@ -226,6 +269,7 @@ class AddItemViewController: UIViewController {
         self.present(alert, animated: true, completion: nil)
     }
     
+    
 }
 
 extension AddItemViewController: UITextFieldDelegate {
@@ -252,4 +296,28 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
         self.dismiss(animated: true, completion: nil)
         
     }
+}
+
+extension UIToolbar {
+    
+    func getCustomToolbarPicker(selector: Selector) -> UIToolbar {
+        
+        let toolBar = UIToolbar()
+        
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = UIColor.blue
+        toolBar.sizeToFit()
+        
+        let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: selector)
+        let spaceItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.flexibleSpace, target: nil, action: nil)
+        
+        toolBar.setItems([ spaceItem, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        return toolBar
+    }
+    
+    
+    
 }
