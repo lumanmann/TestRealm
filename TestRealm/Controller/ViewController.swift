@@ -105,7 +105,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
         
         cell?.textLabel?.text = todos![indexPath.row].name
-       // cell?.imageView?.image =  todos![indexPath.row].image as? UIImage
+       
         if todos![indexPath.row].isDone {
             cell?.accessoryType = .checkmark
         } else {
@@ -116,17 +116,13 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell?.imageView?.image = image
         }
         
-        let ownerID = todos![indexPath.row].owner?.id ?? -1
-        
-        switch ownerID {
-        case 0: cell?.backgroundColor = .red
-        case 1: cell?.backgroundColor = .yellow
-        case 2: cell?.backgroundColor = .orange
-        case 3: cell?.backgroundColor = .gray
-        default:
-            break
+        if let owner = todos![indexPath.row].owner {
+            let color = UIColor.init(hexString: owner.color)
+            
+            cell?.backgroundColor = color
         }
         
+
         
         return cell!
     }
@@ -148,3 +144,42 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
 }
 
+extension UIColor {
+    class func generateRandomColor() -> UIColor {
+        let hue : CGFloat = CGFloat(arc4random() % 256) / 256 
+        let saturation : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5
+        let brightness : CGFloat = CGFloat(arc4random() % 128) / 256 + 0.5
+        
+        return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 0.8)
+    }
+    
+  
+    convenience init(hexString: String, alpha: CGFloat = 1.0) {
+        let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        let scanner = Scanner(string: hexString)
+        if (hexString.hasPrefix("#")) {
+            scanner.scanLocation = 1
+        }
+        var color: UInt32 = 0
+        scanner.scanHexInt32(&color)
+        let mask = 0x000000FF
+        let r = Int(color >> 16) & mask
+        let g = Int(color >> 8) & mask
+        let b = Int(color) & mask
+        let red   = CGFloat(r) / 255.0
+        let green = CGFloat(g) / 255.0
+        let blue  = CGFloat(b) / 255.0
+        self.init(red:red, green:green, blue:blue, alpha:alpha)
+    }
+    
+    func toHexString() -> String {
+        var r:CGFloat = 0
+        var g:CGFloat = 0
+        var b:CGFloat = 0
+        var a:CGFloat = 0
+        getRed(&r, green: &g, blue: &b, alpha: &a)
+        let rgb:Int = (Int)(r*255)<<16 | (Int)(g*255)<<8 | (Int)(b*255)<<0
+        return String(format:"#%06x", rgb)
+    }
+    
+}

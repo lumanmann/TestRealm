@@ -12,6 +12,7 @@ import RealmSwift
 class Person: Object {
     @objc dynamic var id = 0
     @objc dynamic var name = ""
+    @objc dynamic var color = ""
     var toDoItem = List<ToDoItem>()
     
     override static func primaryKey() -> String? {

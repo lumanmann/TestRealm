@@ -166,15 +166,11 @@ class AddItemViewController: UIViewController {
     }
     
     @objc func saveItem() {
-        guard let name = eventTf.text, name.count > 0, item.type != "" else { return }
+        guard let name = eventTf.text, name.count > 0, item.type != "", item.owner !=  nil else { return }
         item.name = name
-        
-        
         dbManager.add(item: item)
         self.navigationController?.popViewController(animated: true)
-        
-    
-        
+
     }
     
     @objc func pickOwner() {
@@ -217,7 +213,13 @@ class AddItemViewController: UIViewController {
         alert.addAction(cancel)
         alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
             guard let name = tf?.text else { return }
-            DBManager.shared.add(owner: Person(name: name))
+            let person = Person(name: name)
+
+             let color = UIColor.generateRandomColor().toHexString()
+            
+            person.color = color
+        
+            DBManager.shared.add(owner: person)
             
         })
         

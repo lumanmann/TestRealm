@@ -14,6 +14,7 @@ class ToDoItem: Object {
     @objc dynamic var isDone = false
     @objc dynamic var type: String = ""
     @objc dynamic var imagePath: String = ""
+    @objc dynamic var deadline: Date?
     @objc dynamic var owner: Person? 
     
     convenience init(name: String) {
