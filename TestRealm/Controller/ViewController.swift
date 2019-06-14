@@ -17,7 +17,6 @@ class ViewController: UIViewController, DBManagerDelegate {
         datePicker.datePickerMode = .date
         datePicker.locale = Locale.current
         datePicker.date = NSDate() as Date
-        
         return datePicker
     }()
     
@@ -35,6 +34,9 @@ class ViewController: UIViewController, DBManagerDelegate {
         super.viewDidLoad()
         view.backgroundColor = .white
         dbManager.getFileURL()
+        
+        datePicker.addTarget(self, action: #selector(datePickerChanged), for: .valueChanged)
+        
         configureDB()
         configureNavBar()
         configureTableView()
@@ -129,8 +131,6 @@ class ViewController: UIViewController, DBManagerDelegate {
         return nil
     }
     
-   
-    
     
     func animateTableView(isActive: Bool) {
         tableViewTopConstarint?.isActive = isActive
@@ -146,12 +146,16 @@ class ViewController: UIViewController, DBManagerDelegate {
         animateTableView(isActive: false)
     }
     
-    @objc func dismissDatePicker() {
+    @objc func dismissDatePicker(sender: UIBarButtonItem) {
+        searchBarTextField?.endEditing(true)
+    }
+    
+    @objc func datePickerChanged() {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd"
         let date = formatter.string(from: datePicker.date)
         searchBarTextField?.text = date
-        searchBarTextField?.endEditing(true)
+        
     }
     
     // MARK: DBManagerDelegate
@@ -159,13 +163,6 @@ class ViewController: UIViewController, DBManagerDelegate {
         tableView.reloadData()
     }
     
-    @objc func dismissDP() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
-        let date = formatter.string(from: datePicker.date)
-        searchController.searchBar.text = date
-        searchBarTextField?.endEditing(true)
-    }
     
    
 }
@@ -266,7 +263,7 @@ extension ViewController: UISearchResultsUpdating, UISearchControllerDelegate, U
         }
         if selectedScope == 3 {
             self.searchBarTextField!.inputView = datePicker
-            self.searchBarTextField!.inputAccessoryView = UIToolbar().getCustomToolbarPicker(selector: #selector(dismissDP))
+            self.searchBarTextField!.inputAccessoryView = UIToolbar().getCustomToolbarPicker(selector: #selector(self.dismissDatePicker))
             
         } else {
             
@@ -274,6 +271,7 @@ extension ViewController: UISearchResultsUpdating, UISearchControllerDelegate, U
             self.searchBarTextField!.inputAccessoryView = nil
             
         }
+        
         searchBar.reloadInputViews()
         
         self.selectedScope = selectedScope
