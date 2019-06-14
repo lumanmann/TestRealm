@@ -146,7 +146,7 @@ class ViewController: UIViewController, DBManagerDelegate {
         animateTableView(isActive: false)
     }
     
-    @objc func dismissDatePicker(sender: UIBarButtonItem) {
+    @objc func dismissDatePicker() {
         searchBarTextField?.endEditing(true)
     }
     
@@ -163,8 +163,7 @@ class ViewController: UIViewController, DBManagerDelegate {
         tableView.reloadData()
     }
     
-    
-   
+
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -263,7 +262,11 @@ extension ViewController: UISearchResultsUpdating, UISearchControllerDelegate, U
         }
         if selectedScope == 3 {
             self.searchBarTextField!.inputView = datePicker
-            self.searchBarTextField!.inputAccessoryView = UIToolbar().getCustomToolbarPicker(selector: #selector(self.dismissDatePicker))
+            let toolbar = CustomToolBar()
+            toolbar.handler = { [unowned self] in
+                self.dismissDatePicker()
+            }
+            self.searchBarTextField!.inputAccessoryView = toolbar
             
         } else {
             
