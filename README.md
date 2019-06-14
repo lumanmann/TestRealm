@@ -1,5 +1,5 @@
 # TestRealm
-A little to-do app for a try on imorting Realm in a project
+A little to-do app for a try on using Realm in a project
 
 
 ![](https://i.imgur.com/bcD1DWC.gif)
