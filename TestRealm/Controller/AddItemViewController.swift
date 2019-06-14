@@ -201,11 +201,10 @@ class AddItemViewController: UIViewController {
     }
     
     @objc func saveItem() {
-        guard let name = eventTf.text, name.count > 0, item.type != "", item.owner !=  nil else { return }
+        guard let name = eventTf.text, name.count > 0, item.type != "", owner !=  nil else { return }
         item.name = name
-        
-        dbManager.add(item: item)
-        dbManager.append(item: item, owner: owner!)
+        dbManager.add(item: item, owner: owner!)
+
         self.navigationController?.popViewController(animated: true)
         
     }
@@ -216,7 +215,6 @@ class AddItemViewController: UIViewController {
         
         for owner in DBManager.shared.pepeole {
             let action = UIAlertAction(title: "\(owner.name)", style: .default, handler: {[unowned self](_) -> Void in
-                self.item.owner = owner
                 self.owner = owner
                 self.ownerBtn.setTitle(owner.name, for: .normal)
             })

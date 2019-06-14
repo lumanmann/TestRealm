@@ -39,7 +39,10 @@ class DBManager {
         print(realm.configuration.fileURL!)
     }
     
-    func add(item: ToDoItem) {
+    func add(item: ToDoItem, owner: Person) {
+        item.owner = owner
+        append(item: item, to: owner)
+        
         try! realm.write {
             realm.add(item)
         }
@@ -61,7 +64,7 @@ class DBManager {
         
     }
     
-    func append(item: ToDoItem, owner: Person) {
+    func append(item: ToDoItem, to owner: Person) {
         try! realm.write {
             owner.toDoItem.append(item)
         }
