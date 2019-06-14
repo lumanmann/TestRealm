@@ -43,6 +43,7 @@ class AddItemViewController: UIViewController {
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("WORK", for: .normal)
         btn.setTitleColor(.black, for: .normal)
+        btn.setTitleColor(.blue, for: .selected)
         btn.backgroundColor = .lightGray
         btn.tag = 111
         return btn
@@ -52,6 +53,7 @@ class AddItemViewController: UIViewController {
         let btn = UIButton()
         btn.translatesAutoresizingMaskIntoConstraints = false
         btn.setTitle("LEISURE", for: .normal)
+        btn.setTitleColor(.blue, for: .selected)
         btn.setTitleColor(.black, for: .normal)
         btn.backgroundColor = .lightGray
         btn.tag = 222
@@ -128,7 +130,7 @@ class AddItemViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-
+        
         eventTf.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
             make.width.equalToSuperview().multipliedBy(0.8)
@@ -148,7 +150,7 @@ class AddItemViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-    
+        
         
     }
     
@@ -188,6 +190,12 @@ class AddItemViewController: UIViewController {
     }
     
     @objc func itemClick(_ sender: UIButton) {
+        sender.isSelected = true
+        if sender.tag == 111 {
+            type2Btn.isSelected = false
+        } else {
+            type1Btn.isSelected = false
+        }
         item.type = sender.currentTitle ?? ""
     }
     
@@ -196,7 +204,7 @@ class AddItemViewController: UIViewController {
         item.name = name
         dbManager.add(item: item)
         self.navigationController?.popViewController(animated: true)
-
+        
     }
     
     @objc func pickOwner() {
@@ -212,7 +220,7 @@ class AddItemViewController: UIViewController {
         }
         
         let add = UIAlertAction(title: "Add Owner", style: .destructive, handler: {[unowned self](_) -> Void in
-           self.addNewOwner()
+            self.addNewOwner()
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -224,10 +232,10 @@ class AddItemViewController: UIViewController {
         
     }
     
- 
+    
     @objc func dismissDatePicker() {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy年MM月dd日"
+        formatter.dateFormat = "yyyy-MM-dd"
         let date = formatter.string(from: datePicker.date)
         deadlineTf.text = date
         item.deadline = datePicker.date
@@ -250,11 +258,11 @@ class AddItemViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "OK", style: .default) { (_) in
             guard let name = tf?.text else { return }
             let person = Person(name: name)
-
-             let color = UIColor.generateRandomColor().toHexString()
+            
+            let color = UIColor.generateRandomColor().toHexString()
             
             person.color = color
-        
+            
             DBManager.shared.add(owner: person)
             
         })
@@ -279,7 +287,7 @@ extension AddItemViewController: UIImagePickerControllerDelegate, UINavigationCo
         self.dismiss(animated: true, completion: nil)
     }
     
-  func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         let imageURL = info[.imageURL] as? URL
         item.imagePath = imageURL?.absoluteString ?? ""
         
@@ -299,7 +307,6 @@ extension UIToolbar {
         
         toolBar.barStyle = UIBarStyle.default
         toolBar.isTranslucent = true
-        toolBar.tintColor = UIColor.blue
         toolBar.sizeToFit()
         
         let doneButton = UIBarButtonItem(title: "Done", style: UIBarButtonItem.Style.plain, target: self, action: selector)

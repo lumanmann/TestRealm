@@ -12,12 +12,24 @@ import SnapKit
 
 class ViewController: UIViewController, DBManagerDelegate {
     
+    let datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        datePicker.datePickerMode = .date
+        datePicker.locale = Locale.current
+        datePicker.date = NSDate() as Date
+        
+        return datePicker
+    }()
+    
     let searchController = UISearchController(searchResultsController: nil)
     let tableView = UITableView()
+    
     var dbManager = DBManager.shared
     var todos: Results<ToDoItem>!
     var tableViewTopConstarint: NSLayoutConstraint?
     var selectedScope = 0
+    var searchBarTextField: UITextField?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,15 +57,15 @@ class ViewController: UIViewController, DBManagerDelegate {
         let addBtn = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addItem))
         let deleteBtn = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteItems))
         let resetBtn = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(resetItems))
-    
+        
         self.navigationItem.setRightBarButtonItems([deleteBtn,resetBtn, addBtn], animated: true)
-    
+        
         makeSearchBar()
     }
     
-    func makeSearchBar() {
-        searchController.searchBar.scopeButtonTitles = ["Name", "Owner", "Type"]
-       
+    private func makeSearchBar() {
+        searchController.searchBar.scopeButtonTitles = ["Name", "Owner", "Type", "Deadline Before"]
+        
         searchController.delegate = self
         searchController.searchBar.delegate = self
         searchController.searchResultsUpdater = self
@@ -66,8 +78,6 @@ class ViewController: UIViewController, DBManagerDelegate {
         tableView.tableHeaderView = searchController.searchBar
         tableView.reloadData()
     }
-    
-    
     
     private func configureTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -105,12 +115,7 @@ class ViewController: UIViewController, DBManagerDelegate {
         dbManager.deleteAll()
     }
     
-    // MARK: DBManagerDelegate
-    func didFinishEditing() {
-        tableView.reloadData()
-    }
-    
-    func loadImagefrom(path: String) -> UIImage? {
+    private func loadImagefrom(path: String) -> UIImage? {
         guard let url = URL(string: path)  else {
             return nil
         }
@@ -124,7 +129,45 @@ class ViewController: UIViewController, DBManagerDelegate {
         return nil
     }
     
-
+   
+    
+    
+    func animateTableView(isActive: Bool) {
+        tableViewTopConstarint?.isActive = isActive
+        
+        UIView.animate(withDuration: 0.5) {
+            self.tableView.updateConstraintsIfNeeded()
+            self.tableView.layoutIfNeeded()
+        }
+    }
+    
+    func dissMissSearchBar() {
+        searchController.isActive = false
+        animateTableView(isActive: false)
+    }
+    
+    @objc func dismissDatePicker() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let date = formatter.string(from: datePicker.date)
+        searchBarTextField?.text = date
+        searchBarTextField?.endEditing(true)
+    }
+    
+    // MARK: DBManagerDelegate
+    func didFinishEditing() {
+        tableView.reloadData()
+    }
+    
+    @objc func dismissDP() {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        let date = formatter.string(from: datePicker.date)
+        searchController.searchBar.text = date
+        searchBarTextField?.endEditing(true)
+    }
+    
+   
 }
 
 extension ViewController: UITableViewDataSource, UITableViewDelegate {
@@ -134,10 +177,10 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell")
-    
+        
         
         cell?.textLabel?.text = todos![indexPath.row].name
-       
+        
         if todos![indexPath.row].isDone {
             cell?.accessoryType = .checkmark
         } else {
@@ -154,7 +197,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             cell?.backgroundColor = color
         }
         
-
+        
         
         return cell!
     }
@@ -170,6 +213,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return  80
     }
@@ -180,17 +224,23 @@ extension ViewController: UISearchResultsUpdating, UISearchControllerDelegate, U
     
     // MARK: UISearchResultsUpdating
     func updateSearchResults(for searchController: UISearchController) {
-    
-        let searchString = searchController.searchBar.text!
-        switch selectedScope {
-        case 0: todos = dbManager.filterItem(name: searchString )
-        case 1: todos = dbManager.filterItem(owner: searchString)
-        case 2: todos = dbManager.filterItem(type: searchString)
-        default: todos = dbManager.todos
-        }
         
-        tableView.reloadData()
+        let searchString = searchController.searchBar.text!
+        
+        if searchString.count > 0{
+            switch selectedScope {
+            case 0: todos = dbManager.filterItem(name: searchString )
+            case 1: todos = dbManager.filterItem(owner: searchString)
+            case 2: todos = dbManager.filterItem(type: searchString)
+            case 3: todos = dbManager.filterItem(deadlineBefore: datePicker.date as NSDate)
+            default: todos = dbManager.todos
+            }
+            
+            tableView.reloadData()
+        }
     }
+    
+    
     
     
     func didPresentSearchController(_ searchController: UISearchController) {
@@ -198,28 +248,39 @@ extension ViewController: UISearchResultsUpdating, UISearchControllerDelegate, U
         animateTableView(isActive: true)
     }
     
-
+    
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
         dissMissSearchBar()
     }
     
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        self.selectedScope = selectedScope
-    }
-    
-    func animateTableView(isActive: Bool) {
-        tableViewTopConstarint?.isActive = isActive
-  
-        UIView.animate(withDuration: 0.5) {
-            self.tableView.updateConstraintsIfNeeded()
-            self.tableView.layoutIfNeeded()
+        if searchBarTextField == nil {
+            // get the tf layer
+            for v in (searchBar.subviews[0]).subviews {
+                if let tf = v as? UITextField {
+                    searchBarTextField = tf
+                    break
+                }
+            }
+            
         }
+        if selectedScope == 3 {
+            self.searchBarTextField!.inputView = datePicker
+            self.searchBarTextField!.inputAccessoryView = UIToolbar().getCustomToolbarPicker(selector: #selector(dismissDP))
+            
+        } else {
+            
+            self.searchBarTextField?.inputView = UITextField().inputView
+            self.searchBarTextField!.inputAccessoryView = nil
+            
+        }
+        searchBar.reloadInputViews()
+        
+        self.selectedScope = selectedScope
+        
     }
     
-    func dissMissSearchBar() {
-        searchController.isActive = false
-        animateTableView(isActive: false)
-    }
+   
     
     
 }
@@ -233,7 +294,7 @@ extension UIColor {
         return UIColor(hue: hue, saturation: saturation, brightness: brightness, alpha: 0.8)
     }
     
-  
+    
     convenience init(hexString: String, alpha: CGFloat = 1.0) {
         let hexString: String = hexString.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner = Scanner(string: hexString)

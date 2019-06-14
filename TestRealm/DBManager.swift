@@ -102,10 +102,16 @@ class DBManager {
         return items
     }
     
+    func filterItem(deadlineBefore: NSDate) -> Results<ToDoItem> {
+        let predicate = NSPredicate(format: "deadline < %@", deadlineBefore)
+        let items = realm.objects(ToDoItem.self).filter(predicate)
+        return items
+    }
 
-    
-    func filterOwner(name: String) {
-        
+    func filterOwner(name: String) -> Results<Person>  {
+        let predicate = NSPredicate(format: "owner.name CONTAINS %@", name)
+        let owners = realm.objects(Person.self).filter(predicate)
+        return owners
     }
     
 }
