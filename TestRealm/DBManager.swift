@@ -77,7 +77,7 @@ class DBManager {
     }
     
     func filterItem(name: String) -> Results<ToDoItem> {
-        let predicate = NSPredicate(format: "owner.name CONTAINS %@", name)
+        let predicate = NSPredicate(format: "name CONTAINS %@", name)
         let items = realm.objects(ToDoItem.self).filter(predicate)
         return items
     }

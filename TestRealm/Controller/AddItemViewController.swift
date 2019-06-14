@@ -214,6 +214,7 @@ class AddItemViewController: UIViewController {
         for owner in DBManager.shared.pepeole {
             let action = UIAlertAction(title: "\(owner.name)", style: .default, handler: {[unowned self](_) -> Void in
                 self.item.owner = owner
+                self.ownerBtn.setTitle(owner.name, for: .normal)
             })
             
             alert.addAction(action)
@@ -264,6 +265,8 @@ class AddItemViewController: UIViewController {
             person.color = color
             
             DBManager.shared.add(owner: person)
+            
+            tf?.resignFirstResponder()
             
         })
         

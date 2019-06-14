@@ -155,7 +155,8 @@ class ViewController: UIViewController, DBManagerDelegate {
         formatter.dateFormat = "yyyy-MM-dd"
         let date = formatter.string(from: datePicker.date)
         searchBarTextField?.text = date
-        
+        todos = dbManager.filterItem(deadlineBefore: datePicker.date as NSDate)
+        tableView.reloadData()
     }
     
     // MARK: DBManagerDelegate
