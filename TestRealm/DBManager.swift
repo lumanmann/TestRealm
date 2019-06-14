@@ -53,13 +53,18 @@ class DBManager {
         }
     }
     
-    
     func delete(item: ToDoItem) {
       
         try! realm.write {
             realm.delete(item)
         }
         
+    }
+    
+    func append(item: ToDoItem, owner: Person) {
+        try! realm.write {
+            owner.toDoItem.append(item)
+        }
     }
     
     func deleteAll() {

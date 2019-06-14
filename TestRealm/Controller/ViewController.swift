@@ -42,8 +42,7 @@ class ViewController: UIViewController, DBManagerDelegate {
         configureTableView()
         
         todos = dbManager.todos
-        
-        
+
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -66,7 +65,7 @@ class ViewController: UIViewController, DBManagerDelegate {
     }
     
     private func makeSearchBar() {
-        searchController.searchBar.scopeButtonTitles = ["Name", "Owner", "Type", "Deadline Before"]
+        searchController.searchBar.scopeButtonTitles = ["Name", "Owner", "Type", "Deadline B4"]
         
         searchController.delegate = self
         searchController.searchBar.delegate = self
@@ -193,9 +192,7 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
             
             cell?.backgroundColor = color
         }
-        
-        
-        
+    
         return cell!
     }
     
