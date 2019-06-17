@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import SnapKit
 
-class ViewController: UIViewController, DBManagerDelegate {
+class ViewController: UIViewController {
     
     let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -50,8 +50,16 @@ class ViewController: UIViewController, DBManagerDelegate {
         
     }
     
+    deinit {
+        dbManager.stopNotification()
+    }
+    
     private func configureDB() {
-        dbManager.delegate = self
+        dbManager.startNotification { [weak self] in
+   
+            self?.tableView.reloadData()
+        }
+        
     }
     
     private func configureNavBar() {

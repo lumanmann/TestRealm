@@ -9,19 +9,11 @@
 import Foundation
 import RealmSwift
 
-protocol DBManagerDelegate: class {
-    func didFinishEditing()
-    
-}
-
 class DBManager {
     static var shared = DBManager()
-    
-    private init() {}
-    
-    
+
+    var notificationToken: NotificationToken?
     lazy var realm = try! Realm()
-    weak var delegate: DBManagerDelegate?
     
     var todos: Results<ToDoItem> {
         get {
@@ -35,8 +27,28 @@ class DBManager {
         }
     }
     
+    private init() {}
+    
     func getFileURL() {
         print(realm.configuration.fileURL!)
+    }
+    
+    
+    
+    func startNotification(_ handler: @escaping (()->Void)) {
+        notificationToken = self.realm.observe {
+             (notification, realm) in
+            handler()
+
+        }
+        
+    }
+    
+    func stopNotification() {
+        if let token = notificationToken {
+            token.invalidate()
+        }
+       
     }
     
     func add(item: ToDoItem, owner: Person) {
@@ -46,7 +58,7 @@ class DBManager {
         try! realm.write {
             realm.add(item)
         }
-        delegate?.didFinishEditing()
+       
     }
     
     func add(owner: Person) {
@@ -74,7 +86,7 @@ class DBManager {
         try? realm.write {
             realm.deleteAll()
         }
-        delegate?.didFinishEditing()
+
     }
     
    
